@@ -9,7 +9,7 @@
 import { SyscallContext, IKernel, IFile } from './types';
 import { Marshal, fs } from 'node-binary-marshal';
 import { EFAULT } from './constants';
-import { Stats, FileType } from 'browserfs-browsix-tmp';
+import { Stats, FileType } from 'browserfs';
 
 const SEEK_SET = 0;
 const SEEK_CUR = 1;

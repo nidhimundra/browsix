@@ -16,7 +16,7 @@ import { ExitCallback, OutputCallback, SyscallContext, SyscallResult,
 
 import { HTTPParser } from './http_parser';
 
-import * as bfs from 'browserfs-browsix-tmp';
+import * as bfs from 'browserfs';
 import * as marshal from 'node-binary-marshal';
 
 import { utf8Slice, utf8ToBytes } from '../browser-node/binding/buffer';
@@ -2499,12 +2499,12 @@ export function Boot(fsType: string, fsArgs: any[], cb: BootCallback, args: Boot
 					cb(err, undefined);
 					return;
 				}
-				let writable = new bfs.FileSystem['InMemory']();
+				let writable = new bfs.FileSystem['DOMFS']();
 				let overlaid = new bfs.FileSystem['OverlayFS'](writable, asyncRoot);
 				overlaid.initialize(finishInit.bind(this, overlaid));
 			});
 		} else {
-			let writable = new bfs.FileSystem['InMemory']();
+			let writable = new bfs.FileSystem['DOMFS']();
 			let overlaid = new bfs.FileSystem['OverlayFS'](writable, asyncRoot);
 			overlaid.initialize(finishInit.bind(this, overlaid));
 		}
