@@ -2499,14 +2499,30 @@ export function Boot(fsType: string, fsArgs: any[], cb: BootCallback, args: Boot
 					cb(err, undefined);
 					return;
 				}
-				let writable = new bfs.FileSystem['DOMFS']();
-				let overlaid = new bfs.FileSystem['OverlayFS'](writable, asyncRoot);
-				overlaid.initialize(finishInit.bind(this, overlaid));
+				// Create DOM File System
+				let domfs = new bfs.FileSystem['DOMFS']();
+
+				// Create mountable File System
+				let newmfs = new bfs.FileSystem.MountableFileSystem();
+
+				// Mount File Systems
+				newmfs.mount('/', asyncRoot);
+				newmfs.mount('/workspace/domfs', domfs);
+
+				finishInit(newmfs, null);
 			});
 		} else {
-			let writable = new bfs.FileSystem['DOMFS']();
-			let overlaid = new bfs.FileSystem['OverlayFS'](writable, asyncRoot);
-			overlaid.initialize(finishInit.bind(this, overlaid));
+			// Create DOM File System
+			let domfs = new bfs.FileSystem['DOMFS']();
+
+			// Create mountable File System
+			let newmfs = new bfs.FileSystem.MountableFileSystem();
+
+			// Mount File Systems
+			newmfs.mount('/', asyncRoot);
+			newmfs.mount('/workspace/domfs', domfs);
+
+			finishInit(newmfs, null);
 		}
 	}
 }
